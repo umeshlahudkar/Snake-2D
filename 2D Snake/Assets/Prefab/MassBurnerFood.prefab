@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8032867928124742717}
   - component: {fileID: 8032867928124742716}
   - component: {fileID: 8032867928124742690}
-  - component: {fileID: 8344904606337940069}
+  - component: {fileID: 8849228454994120021}
   m_Layer: 0
   m_Name: MassBurnerFood
   m_TagString: MassBurnerFood
@@ -100,7 +100,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &8344904606337940069
+--- !u!114 &8849228454994120021
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -109,6 +109,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8032867928124742719}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7838910e174f0144496c96860dce83ad, type: 3}
+  m_Script: {fileID: 11500000, guid: 9054a2a6aef7380478981b2d2d6ffd5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  foodSpwaner: {fileID: 0}

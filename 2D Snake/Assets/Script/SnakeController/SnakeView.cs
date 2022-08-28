@@ -3,11 +3,11 @@ using UnityEngine;
 public class SnakeView : MonoBehaviour
 {
     public SnakeControllerr snakeController { get; private set; }
-    bool horizontalMoving = false;
-    bool verticalMoving = false;
-    Direction direction = Direction.None;
-    float timeCount;
-    float movementHalt = 0.15f;
+    private bool horizontalMoving = false;
+    private bool verticalMoving = false;
+    private Direction direction = Direction.None;
+    private float timeCount;
+    private float movementHalt = 0.15f;
    
     void Update()
     {
@@ -18,7 +18,6 @@ public class SnakeView : MonoBehaviour
             timeCount = Time.time;
             snakeController.Move(direction);
         }
-        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -38,20 +37,20 @@ public class SnakeView : MonoBehaviour
             gameObject.transform.position = screenWrap.GetRespwanPosition(gameObject.transform.position);
         }
 
-        MassBurnerFoodView massBurnerFoodView = collision.gameObject.GetComponent<MassBurnerFoodView>();
-        if (massBurnerFoodView != null)
+        IConsumable consumable = collision.gameObject.GetComponent<IConsumable>();
+        if (consumable != null)
         {
-            massBurnerFoodView.Disable();
-            snakeController.Shrink();
-            snakeController.UpdateMassBurnerFoodCount();
-        }
-
-        MassGainerFoodView massGainerFoodView = collision.gameObject.GetComponent<MassGainerFoodView>();
-        if (massGainerFoodView != null)
-        {
-            massGainerFoodView.Respwan();
-            snakeController.Grow();
-            snakeController.UpdateFoodConsumeCount();
+            if(consumable.GetType() == FoodType.MassBurnerFood)
+            {
+                consumable.Destroy();
+                snakeController.Shrink();
+            }
+            else
+            {
+                consumable.Destroy();
+                snakeController.Grow();
+            }
+            
         }
     }
 
@@ -81,11 +80,6 @@ public class SnakeView : MonoBehaviour
             horizontalMoving = false;
             direction = Direction.Down;
         }
-    }
-
-    internal void Disable(GameObject snakeSegment)
-    {
-        Destroy(snakeSegment);
     }
 
     public void SetSnakeController(SnakeControllerr snakeController)

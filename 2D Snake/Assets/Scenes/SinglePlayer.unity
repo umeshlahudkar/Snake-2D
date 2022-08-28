@@ -582,11 +582,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 792873251}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 808a369713a299c44b8a5490f152f3ef, type: 3}
+  m_Script: {fileID: 11500000, guid: 7ca621b203bd686429eaf0c1f7610364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  massGainerFood: {fileID: 6510940165474981285, guid: ba5bcb6784410334eb94886595341b40, type: 3}
-  massBurnerFood: {fileID: 8032867928124742719, guid: 1e2ad583645d5f24fb60430dca0f10cf, type: 3}
+  massGainerFoodPrefab: {fileID: 4667307832409616975, guid: ba5bcb6784410334eb94886595341b40, type: 3}
+  massBurnerFoodPrefab: {fileID: 8849228454994120021, guid: 1e2ad583645d5f24fb60430dca0f10cf, type: 3}
   boundry: {fileID: 2091998790}
 --- !u!4 &792873253
 Transform:
@@ -596,7 +596,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 792873251}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.5149207, y: 3.036107, z: -40.7315}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1001,7 +1001,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1801418780}
   - component: {fileID: 1801418779}
-  - component: {fileID: 1801418781}
   m_Layer: 0
   m_Name: Snake Service
   m_TagString: Untagged
@@ -1036,18 +1035,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1801418781
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1801418778}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c37ace5fcf7737b4fb63e619606b8db4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1802125084
 GameObject:
   m_ObjectHideFlags: 0

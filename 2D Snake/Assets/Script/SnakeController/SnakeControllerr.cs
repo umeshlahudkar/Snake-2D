@@ -45,12 +45,12 @@ public class SnakeControllerr
         }
     }
 
-    internal void InvokeOnGameOverEvent()
+    public void InvokeOnGameOverEvent()
     {
         OnGameOver?.Invoke();
     }
 
-    public void MoveAllSegments(Vector2 direction)
+    private void MoveAllSegments(Vector2 direction)
     {
         for(int i = snakeModel.snakeSegments.Count -1; i > 0; i--)
         {
@@ -62,11 +62,11 @@ public class SnakeControllerr
 
     public void Grow()
     {
-        GameObject snakeSegment = ObjectPooler.Instance.GetObject(snakeModel.snakeSegment, ObjectType.SnakeSegment);
+        GameObject snakeSegment = GameObject.Instantiate(snakeModel.snakeSegment);
         snakeModel.snakeSegments.Add(snakeSegment);
-        snakeSegment.SetActive(true);
 
         OnFoodConsume?.Invoke();
+        UpdateFoodConsumeCount();
     }
 
     public void Shrink()
@@ -75,15 +75,16 @@ public class SnakeControllerr
         {
             GameObject snakeSegment = snakeModel.snakeSegments[snakeModel.snakeSegments.Count - 1];
             snakeModel.snakeSegments.RemoveAt(snakeModel.snakeSegments.Count - 1);
-            
-            ObjectPooler.Instance.ReturnToPool(snakeSegment, ObjectType.SnakeSegment);
-            snakeSegment.SetActive(false);
+
+            SnakeSegment segment = snakeSegment.gameObject.GetComponent<SnakeSegment>();
+            segment.Destroy();
 
             OnFoodConsume?.Invoke();
+            UpdateMassBurnerFoodCount();
         }
     }
 
-    public async void ActivateSpecialAbility()
+    private async void ActivateSpecialAbility()
     {
         OnSpecialAbilityActive?.Invoke();
 
@@ -94,17 +95,16 @@ public class SnakeControllerr
         snakeView.GetComponent<BoxCollider2D>().isTrigger = false;
     }
 
-    public void UpdateFoodConsumeCount()
+    private void UpdateFoodConsumeCount()
     {
         snakeModel.foodConsumeCount++;
         if(snakeModel.foodConsumeCount >= snakeModel.consumeCountToSpwanFood)
         {
             snakeModel.foodConsumeCount = 0;
-            FoodService.Instance.SpwanMassBurnerFood();
         }
     }
 
-    public void UpdateMassBurnerFoodCount()
+    private void UpdateMassBurnerFoodCount()
     {
         snakeModel.massBurnerFoodCount++;
         if(snakeModel.massBurnerFoodCount >= snakeModel.consumeCountToActivateShield)

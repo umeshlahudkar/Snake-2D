@@ -10,10 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3215651604282681874}
   - component: {fileID: 3215651604282681875}
-  - component: {fileID: 3215651604282681877}
   - component: {fileID: 3215651604282681876}
-  - component: {fileID: 3215651604282681873}
-  - component: {fileID: 6510940165474981285}
+  - component: {fileID: 4667307832409616975}
   m_Layer: 0
   m_Name: MassGainerFood
   m_TagString: MassGainerFood
@@ -86,19 +84,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3215651604282681877
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3215651604282681878}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f6b6523c78c46541a0be0906f4abd2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Boundry: {fileID: 0}
 --- !u!58 &3215651604282681876
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -115,21 +100,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &3215651604282681873
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3215651604282681878}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50a7715032f56314183c13bcbd8c2508, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Boundry: {fileID: 0}
-  MassBurnerFood: {fileID: 8032867928124742719, guid: 1e2ad583645d5f24fb60430dca0f10cf, type: 3}
---- !u!114 &6510940165474981285
+--- !u!114 &4667307832409616975
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -138,6 +109,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3215651604282681878}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d4396146a6b95741bf67de9801bce57, type: 3}
+  m_Script: {fileID: 11500000, guid: 2b429a506fd2e7341903a8324a03008f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  foodSpwaner: {fileID: 0}
