@@ -1,15 +1,21 @@
 using UnityEngine;
+using TMPro;
 
 public class SnakeView : MonoBehaviour
 {
     public SnakeControllerr snakeController { get; private set; }
-    private bool horizontalMoving = false;
-    private bool verticalMoving = false;
-    private Direction direction = Direction.None;
-    private float timeCount;
-    private float movementHalt = 0.15f;
+    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI shieldActive;
+
+    protected bool horizontalMoving = false;
+    protected bool verticalMoving = false;
+    protected Direction direction = Direction.None;
+    protected float timeCount;
+    protected float movementHalt = 0.15f;
+    protected float shieldActiveTime = 8f;
+    protected bool isShieldActive = false;
    
-    void Update()
+    protected virtual void Update()
     {
         UserInput();
 
@@ -18,9 +24,15 @@ public class SnakeView : MonoBehaviour
             timeCount = Time.time;
             snakeController.Move(direction);
         }
+
+        if(isShieldActive && shieldActiveTime >= 0)
+        {
+            shieldActiveTime -= Time.deltaTime;
+            DisplayShieldTime();
+        }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    protected void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.GetComponent<SnakeSegment>())
         {
@@ -29,7 +41,7 @@ public class SnakeView : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected void OnTriggerEnter2D(Collider2D collision)
     {
         ISwapable screenWrap = collision.gameObject.GetComponent<ISwapable>();
         if(screenWrap != null)
@@ -54,7 +66,7 @@ public class SnakeView : MonoBehaviour
         }
     }
 
-    void UserInput()
+    protected virtual void UserInput()
     {
         if (Input.GetKeyDown(KeyCode.RightArrow) && !horizontalMoving)
         {
@@ -80,6 +92,28 @@ public class SnakeView : MonoBehaviour
             horizontalMoving = false;
             direction = Direction.Down;
         }
+    }
+
+    public virtual void UpdateScoreText(float score)
+    {
+        scoreText.text = "Score : " + score.ToString();
+    }
+
+    public virtual void StartShieldTimer()
+    {
+        isShieldActive = true;
+        shieldActive.gameObject.SetActive(true);
+    }
+    public virtual void DisplayShieldTime()
+    {
+        shieldActive.text = "Shield Active : " + ((int)shieldActiveTime);
+    }
+
+    public virtual void StopShieldTimer()
+    {
+        isShieldActive = false;
+        shieldActive.gameObject.SetActive(false);
+        shieldActiveTime = 8f;
     }
 
     public void SetSnakeController(SnakeControllerr snakeController)

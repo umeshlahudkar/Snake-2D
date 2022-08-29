@@ -7,21 +7,17 @@ public class SnakeControllerr
     public SnakeView snakeView { get; private set; }
     public SnakeModel snakeModel { get; private set; }
 
-    public static event Action OnFoodConsume;
     public static event Action OnGameOver;
-    public static event Action OnSpecialAbilityActive;
 
     public SnakeControllerr(SnakeModel snakeModel,SnakeSO snakeSO)
-   {
+    {
         this.snakeModel = snakeModel;
         this.snakeView = GameObject.Instantiate<SnakeView>(snakeSO.snakeView);
 
         snakeModel.snakeSegments.Add(snakeView.gameObject);
-
-        snakeModel.SetSnakeController(this);
         this.snakeView.SetSnakeController(this);
 
-   }
+    }
 
     public void Move(Direction direction)
     {
@@ -65,8 +61,8 @@ public class SnakeControllerr
         GameObject snakeSegment = GameObject.Instantiate(snakeModel.snakeSegment);
         snakeModel.snakeSegments.Add(snakeSegment);
 
-        OnFoodConsume?.Invoke();
         UpdateFoodConsumeCount();
+        UpdateScore();
     }
 
     public void Shrink()
@@ -79,20 +75,20 @@ public class SnakeControllerr
             SnakeSegment segment = snakeSegment.gameObject.GetComponent<SnakeSegment>();
             segment.Destroy();
 
-            OnFoodConsume?.Invoke();
             UpdateMassBurnerFoodCount();
+            UpdateScore();
         }
     }
 
     private async void ActivateSpecialAbility()
     {
-        OnSpecialAbilityActive?.Invoke();
-
+        snakeView.StartShieldTimer();
         snakeView.GetComponent<BoxCollider2D>().isTrigger = true;
 
         await Task.Delay(System.TimeSpan.FromSeconds(snakeModel.shieldActiveTime));
 
         snakeView.GetComponent<BoxCollider2D>().isTrigger = false;
+        snakeView.StopShieldTimer();
     }
 
     private void UpdateFoodConsumeCount()
@@ -112,6 +108,12 @@ public class SnakeControllerr
             snakeModel.massBurnerFoodCount = 0;
             ActivateSpecialAbility();
         }
+    }
+
+    private void UpdateScore()
+    {
+        snakeModel.score += 10;
+        snakeView.UpdateScoreText(snakeModel.score);
     }
 }
 
