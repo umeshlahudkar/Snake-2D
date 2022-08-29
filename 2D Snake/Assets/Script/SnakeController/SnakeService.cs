@@ -1,22 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SnakeService : MonoBehaviour
 {
-    [SerializeField] SnakeSO snakeSO;
+    [SerializeField] private SnakeSO[] snakeSO;
+
+    private int players;
 
     void Start()
     {
+        players = PlayerPrefs.GetInt("PlayingPlayers", 1);
         InstantiateSnake();
     }
 
     public void InstantiateSnake()
     {
-        SnakeModel model = new SnakeModel(snakeSO);
-        SnakeControllerr snakeController = new SnakeControllerr(model,snakeSO);
+        for(int i = 0; i < players; i++)
+        {
+            SnakeModel model = new SnakeModel(snakeSO[i]);
+            SnakeControllerr snakeController = new SnakeControllerr(model, snakeSO[i]);
+        }
+        
     }
-
- 
-}   
-   
+}

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SnakeModel 
 {
-    public SnakeControllerr snakeController { get; private set; }
     public GameObject snakeSegment { get; private set; }
     public int foodConsumeCount { get; set; }
     public int massBurnerFoodCount { get; set; }
@@ -12,6 +11,7 @@ public class SnakeModel
     public float spwanOffset { get; private set; }
     public int consumeCountToActivateShield { get; private set; }
     public int consumeCountToSpwanFood { get; private set; }
+    public float score { get;  set; }
 
     public List<GameObject> snakeSegments = new List<GameObject>();
 
@@ -22,10 +22,5 @@ public class SnakeModel
         spwanOffset = snakeSO.spwanOffset;
         consumeCountToActivateShield = snakeSO.consumeCountToActivateShield;
         consumeCountToSpwanFood = snakeSO.consumeCountToRespwanFood;
-    }
-
-    public void SetSnakeController(SnakeControllerr snakeController)
-    {
-        this.snakeController = snakeController;
     }
 }

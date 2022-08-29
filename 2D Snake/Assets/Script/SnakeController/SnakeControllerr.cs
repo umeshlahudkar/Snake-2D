@@ -7,21 +7,17 @@ public class SnakeControllerr
     public SnakeView snakeView { get; private set; }
     public SnakeModel snakeModel { get; private set; }
 
-    public static event Action OnFoodConsume;
     public static event Action OnGameOver;
-    public static event Action OnSpecialAbilityActive;
 
     public SnakeControllerr(SnakeModel snakeModel,SnakeSO snakeSO)
-   {
+    {
         this.snakeModel = snakeModel;
         this.snakeView = GameObject.Instantiate<SnakeView>(snakeSO.snakeView);
 
         snakeModel.snakeSegments.Add(snakeView.gameObject);
-
-        snakeModel.SetSnakeController(this);
         this.snakeView.SetSnakeController(this);
 
-   }
+    }
 
     public void Move(Direction direction)
     {
@@ -45,12 +41,12 @@ public class SnakeControllerr
         }
     }
 
-    internal void InvokeOnGameOverEvent()
+    public void InvokeOnGameOverEvent()
     {
         OnGameOver?.Invoke();
     }
 
-    public void MoveAllSegments(Vector2 direction)
+    private void MoveAllSegments(Vector2 direction)
     {
         for(int i = snakeModel.snakeSegments.Count -1; i > 0; i--)
         {
@@ -62,11 +58,11 @@ public class SnakeControllerr
 
     public void Grow()
     {
-        GameObject snakeSegment = ObjectPooler.Instance.GetObject(snakeModel.snakeSegment, ObjectType.SnakeSegment);
+        GameObject snakeSegment = GameObject.Instantiate(snakeModel.snakeSegment);
         snakeModel.snakeSegments.Add(snakeSegment);
-        snakeSegment.SetActive(true);
 
-        OnFoodConsume?.Invoke();
+        UpdateFoodConsumeCount();
+        UpdateScore();
     }
 
     public void Shrink()
@@ -75,36 +71,36 @@ public class SnakeControllerr
         {
             GameObject snakeSegment = snakeModel.snakeSegments[snakeModel.snakeSegments.Count - 1];
             snakeModel.snakeSegments.RemoveAt(snakeModel.snakeSegments.Count - 1);
-            
-            ObjectPooler.Instance.ReturnToPool(snakeSegment, ObjectType.SnakeSegment);
-            snakeSegment.SetActive(false);
 
-            OnFoodConsume?.Invoke();
+            SnakeSegment segment = snakeSegment.gameObject.GetComponent<SnakeSegment>();
+            segment.Destroy();
+
+            UpdateMassBurnerFoodCount();
+            UpdateScore();
         }
     }
 
-    public async void ActivateSpecialAbility()
+    private async void ActivateSpecialAbility()
     {
-        OnSpecialAbilityActive?.Invoke();
-
+        snakeView.StartShieldTimer();
         snakeView.GetComponent<BoxCollider2D>().isTrigger = true;
 
         await Task.Delay(System.TimeSpan.FromSeconds(snakeModel.shieldActiveTime));
 
         snakeView.GetComponent<BoxCollider2D>().isTrigger = false;
+        snakeView.StopShieldTimer();
     }
 
-    public void UpdateFoodConsumeCount()
+    private void UpdateFoodConsumeCount()
     {
         snakeModel.foodConsumeCount++;
         if(snakeModel.foodConsumeCount >= snakeModel.consumeCountToSpwanFood)
         {
             snakeModel.foodConsumeCount = 0;
-            FoodService.Instance.SpwanMassBurnerFood();
         }
     }
 
-    public void UpdateMassBurnerFoodCount()
+    private void UpdateMassBurnerFoodCount()
     {
         snakeModel.massBurnerFoodCount++;
         if(snakeModel.massBurnerFoodCount >= snakeModel.consumeCountToActivateShield)
@@ -112,6 +108,12 @@ public class SnakeControllerr
             snakeModel.massBurnerFoodCount = 0;
             ActivateSpecialAbility();
         }
+    }
+
+    private void UpdateScore()
+    {
+        snakeModel.score += 10;
+        snakeView.UpdateScoreText(snakeModel.score);
     }
 }
 
